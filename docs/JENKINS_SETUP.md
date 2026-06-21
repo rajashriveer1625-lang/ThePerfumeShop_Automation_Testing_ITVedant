@@ -7,7 +7,7 @@ This guide configures Jenkins to build the project and run the Selenium + Cucumb
 | Requirement | Notes |
 |-------------|-------|
 | JDK 17 | Set `JAVA_HOME` or configure in Jenkins **Global Tool Configuration** |
-| Maven 3.8+ | Configure as **Maven-3.9** (or update `Jenkinsfile` tool name) |
+| Maven 3.8+ | Configure as `maven-3.9.11` (or update `Jenkinsfile` tool name) |
 | Google Chrome | Must be installed on the agent machine |
 | Network access | Tests hit `https://perfume-demov-uksm.vercel.app` |
 
@@ -15,7 +15,7 @@ This guide configures Jenkins to build the project and run the Selenium + Cucumb
 
 1. **Manage Jenkins → Tools**
 2. **JDK** — add installation named `JDK-17` pointing to JDK 17
-3. **Maven** — add installation named `Maven-3.9`
+3. **Maven** — add installation named `maven-3.9.11`
 
 If your tool names differ, edit the `tools { }` block in `Jenkinsfile`.
 

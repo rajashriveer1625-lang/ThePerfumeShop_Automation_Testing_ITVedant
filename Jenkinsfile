@@ -15,7 +15,7 @@ pipeline {
     }
 
     environment {
-        HEADLESS = 'true'
+        HEADLESS = 'false'
     }
 
     options {
