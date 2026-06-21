@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'JDK-17'
-        maven 'maven-3.9.11'
-    }
-
     parameters {
         choice(
             name: 'TEST_SUITE',
@@ -20,6 +15,9 @@ pipeline {
     }
 
     environment {
+        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-17'
+        MAVEN_HOME = 'C:\\Programs\\maven\\apache-maven-3.9.11'
+        PATH = "${JAVA_HOME}\\bin;${MAVEN_HOME}\\bin;${env.PATH}"
         HEADLESS = "${params.HEADLESS_MODE}"
     }
 
@@ -38,6 +36,8 @@ pipeline {
 
         stage('Build') {
             steps {
+                echo "JAVA_HOME=${env.JAVA_HOME}"
+                echo "MAVEN_HOME=${env.MAVEN_HOME}"
                 runMaven('clean compile -DskipTests')
             }
         }
