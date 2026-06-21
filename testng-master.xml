@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Perfume Shop Master Smoke Suite" parallel="false" verbose="1" preserve-order="true">
+
+    <test name="Master - All Smoke Tests">
+        <classes>
+            <class name="runners.MasterRunner"/>
+        </classes>
+    </test>
+
+</suite>

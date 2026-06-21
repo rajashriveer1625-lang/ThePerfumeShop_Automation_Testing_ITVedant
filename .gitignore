@@ -1,0 +1,20 @@
+# Maven build output
+target/
+
+# TestNG / Surefire reports (generated locally)
+test-output/
+
+# IDE files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+bin/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
