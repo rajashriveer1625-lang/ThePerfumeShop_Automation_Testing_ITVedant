@@ -12,10 +12,15 @@ pipeline {
             choices: ['full', 'smoke'],
             description: 'full = all 7 page runners (testng.xml), smoke = MasterRunner only (testng-master.xml)'
         )
+        choice(
+            name: 'HEADLESS_MODE',
+            choices: ['false', 'true'],
+            description: 'false = visible Chrome window (only works when Jenkins runs in your logged-in desktop session, not as a Windows Service)'
+        )
     }
 
     environment {
-        HEADLESS = 'false'
+        HEADLESS = "${params.HEADLESS_MODE}"
     }
 
     options {
@@ -41,7 +46,8 @@ pipeline {
             steps {
                 script {
                     def suiteFile = params.TEST_SUITE == 'smoke' ? 'testng-master.xml' : 'testng.xml'
-                    runMaven("test -Dsurefire.suiteXmlFiles=${suiteFile}")
+                    echo "Running with HEADLESS=${params.HEADLESS_MODE} (browser visible only if Jenkins is not running as a Windows Service)"
+                    runMaven("test -Dsurefire.suiteXmlFiles=${suiteFile} -Dheadless=${params.HEADLESS_MODE}")
                 }
             }
         }
