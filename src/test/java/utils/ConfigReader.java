@@ -27,10 +27,28 @@ public final class ConfigReader {
     }
 
     public static String get(String key) {
+        String envKey = key.toUpperCase().replace('.', '_');
+        String envValue = System.getenv(envKey);
+        if (envValue != null && !envValue.isBlank()) {
+            return envValue;
+        }
+        String sysProp = System.getProperty(key);
+        if (sysProp != null && !sysProp.isBlank()) {
+            return sysProp;
+        }
         return properties.getProperty(key);
     }
 
+    public static String get(String key, String defaultValue) {
+        String value = get(key);
+        return value != null ? value : defaultValue;
+    }
+
     public static int getInt(String key) {
-        return Integer.parseInt(properties.getProperty(key));
+        return Integer.parseInt(get(key));
+    }
+
+    public static boolean getBoolean(String key) {
+        return Boolean.parseBoolean(get(key, "false"));
     }
 }
