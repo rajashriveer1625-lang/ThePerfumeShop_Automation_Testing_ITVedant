@@ -101,6 +101,37 @@ The pipeline archives these automatically. Download from the build’s **Artifac
 | Maven/JDK not found | Match tool names in Jenkins **Tools** with `Jenkinsfile` |
 | Windows agent | `Jenkinsfile` uses `bat` on Windows and `sh` on Linux automatically |
 | Timeouts | Increase `explicit.wait` in config or pipeline `timeout` option |
+| Browser not visible even with `HEADLESS=false` | Jenkins Windows **Service** runs in Session 0 — Chrome cannot appear on your desktop. See **Visible browser on Windows** below |
+
+## Visible browser on Windows (see tests run)
+
+`HEADLESS=false` in the `Jenkinsfile` is not enough if Jenkins runs as a **Windows Service**. Services run in an isolated session; Chrome may start but you will not see it on your screen.
+
+### Fix: run Jenkins in your logged-in session (not as a service)
+
+1. Stop the service (Admin PowerShell):
+
+```powershell
+Stop-Service Jenkins
+```
+
+2. Open a normal **Command Prompt** or PowerShell (stay logged in as yourself).
+
+3. Start Jenkins interactively:
+
+```powershell
+& "C:\Program Files\Java\jdk-17\bin\java.exe" -jar "C:\Program Files\Jenkins\jenkins.war" --httpPort=8080
+```
+
+4. Open `http://localhost:8080`, run **Build with Parameters**, set:
+   - `HEADLESS_MODE` = **false**
+   - `TEST_SUITE` = **smoke** (quicker first try)
+
+5. Chrome windows should appear on your desktop while tests run.
+
+To go back to background CI mode later, close the terminal and run `Start-Service Jenkins`.
+
+**Also:** commit and push `Jenkinsfile` changes to GitHub — Jenkins loads the file from Git, not your local disk.
 
 ## Local CI simulation
 
