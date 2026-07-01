@@ -56,7 +56,7 @@ pipeline {
     post {
         always {
             archiveArtifacts(
-                artifacts: 'target/cucumber-reports/**/*.html,target/screenshots/**/*.png,target/surefire-reports/**/*',
+                artifacts: 'target/cucumber-reports/**/*.html,target/extent-reports/**/*.html,target/screenshots/**/*.png,target/logs/**/*.log,target/surefire-reports/**/*',
                 allowEmptyArchive: true,
                 fingerprint: true
             )

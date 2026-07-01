@@ -21,10 +21,10 @@ import java.util.List;
                 "src/test/resources/features/MenuNavigation.feature",
                 "src/test/resources/features/AddToCart.feature",
                 "src/test/resources/features/Checkout.feature",
-                "src/test/resources/features/MyAccount.feature"
+                "src/test/resources/features/MyAccount.feature",
         },
         glue = {"stepdefinitions", "hooks"},
-        tags = "@Smoke",
+        tags = "@Smoke and not @Skip",
         plugin = {
                 "pretty",
                 "html:target/cucumber-reports/master/report.html",

@@ -1,47 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suite name="Perfume Shop Test Suite" parallel="false" verbose="1" preserve-order="true">
 
-    <!-- Individual page runners in recommended order.
-         Run MasterRunner.java separately for the full @Smoke suite in one class. -->
-    <test name="HomePage Tests">
+    <test name="Master - All Smoke Tests">
         <classes>
-            <class name="runners.HomePageRunner"/>
-        </classes>
-    </test>
-
-    <test name="Login Tests">
-        <classes>
-            <class name="runners.LoginRunner"/>
-        </classes>
-    </test>
-
-    <test name="Register Tests">
-        <classes>
-            <class name="runners.RegisterRunner"/>
-        </classes>
-    </test>
-
-    <test name="Menu Navigation Tests">
-        <classes>
-            <class name="runners.MenuNavigationRunner"/>
-        </classes>
-    </test>
-
-    <test name="Add To Cart Tests">
-        <classes>
-            <class name="runners.AddToCartRunner"/>
-        </classes>
-    </test>
-
-    <test name="Checkout Tests">
-        <classes>
-            <class name="runners.CheckoutRunner"/>
-        </classes>
-    </test>
-
-    <test name="My Account Tests">
-        <classes>
-            <class name="runners.MyAccountRunner"/>
+            <class name="runners.MasterRunner"/>
         </classes>
     </test>
 

@@ -50,13 +50,16 @@ public class CartPage extends BasePage {
 
     /** Clicks the Checkout link to proceed to checkout */
     public void clickCheckout() {
-        if (isDisplayed(CHECKOUT_BUTTON)) {
-            click(CHECKOUT_BUTTON);
-        } else if (isDisplayed(CHECKOUT_LOGIN_LINK)) {
-            click(CHECKOUT_LOGIN_LINK);
-        } else {
-            throw new RuntimeException("Checkout button not found on cart page");
-        }
+        By checkoutControl = wait.until(webDriver -> {
+            if (isVisibleNow(CHECKOUT_BUTTON)) {
+                return CHECKOUT_BUTTON;
+            }
+            if (isVisibleNow(CHECKOUT_LOGIN_LINK)) {
+                return CHECKOUT_LOGIN_LINK;
+            }
+            return null;
+        });
+        click(checkoutControl);
 
         wait.until(ExpectedConditions.or(
                 ExpectedConditions.urlContains("/checkout"),

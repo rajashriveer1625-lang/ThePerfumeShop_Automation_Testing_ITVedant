@@ -28,16 +28,27 @@ public class CheckoutPage extends BasePage {
 
     /** Returns true if checkout page with shipping form is visible */
     public boolean isCheckoutPageDisplayed() {
-        return getCurrentUrl().contains("/checkout") && isDisplayed(FIRST_NAME);
+        return getCurrentUrl().contains("/checkout") && isVisibleNow(FIRST_NAME);
     }
 
     /** Fills shipping details using values from config.properties */
     public void fillShippingDetails() {
-        type(FIRST_NAME, ConfigReader.get("shipping.firstName"));
-        type(LAST_NAME, ConfigReader.get("shipping.lastName"));
-        type(ADDRESS, ConfigReader.get("shipping.address"));
-        type(CITY, ConfigReader.get("shipping.city"));
-        type(ZIP_CODE, ConfigReader.get("shipping.zipCode"));
+        waitForShippingFormReady();
+        typeWithoutWait(FIRST_NAME, ConfigReader.get("shipping.firstName"));
+        typeWithoutWait(LAST_NAME, ConfigReader.get("shipping.lastName"));
+        typeWithoutWait(ADDRESS, ConfigReader.get("shipping.address"));
+        typeWithoutWait(CITY, ConfigReader.get("shipping.city"));
+        typeWithoutWait(ZIP_CODE, ConfigReader.get("shipping.zipCode"));
+    }
+
+    private void waitForShippingFormReady() {
+        wait.until(ExpectedConditions.and(
+                ExpectedConditions.visibilityOfElementLocated(FIRST_NAME),
+                ExpectedConditions.visibilityOfElementLocated(LAST_NAME),
+                ExpectedConditions.visibilityOfElementLocated(ADDRESS),
+                ExpectedConditions.visibilityOfElementLocated(CITY),
+                ExpectedConditions.visibilityOfElementLocated(ZIP_CODE)
+        ));
     }
 
     /** Selects Cash on Delivery payment method */
@@ -90,7 +101,7 @@ public class CheckoutPage extends BasePage {
                 ExpectedConditions.visibilityOfElementLocated(FIRST_NAME)
         ));
 
-        if (isDisplayed(EMPTY_CART_MESSAGE)) {
+        if (isVisibleNow(EMPTY_CART_MESSAGE)) {
             throw new RuntimeException("Checkout blocked - cart is empty on checkout page");
         }
     }

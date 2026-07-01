@@ -1,6 +1,7 @@
 package pages;
 
 import java.time.Duration;
+import java.util.function.Supplier;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -59,16 +60,45 @@ public abstract class BasePage {
     /** Clears a field and types text into it */
     protected void type(By locator, String text) {
         WebElement element = waitForVisible(locator);
+        typeInto(element, text);
+    }
+
+    /** Clears a field and types text without an extra visibility wait */
+    protected void typeWithoutWait(By locator, String text) {
+        typeInto(withZeroImplicitWait(() -> driver.findElement(locator)), text);
+    }
+
+    private void typeInto(WebElement element, String text) {
         element.clear();
         element.sendKeys(text);
     }
 
-    /** Checks if an element is displayed on the page */
+    /** Checks if an element is displayed on the page (waits up to explicit.wait) */
     protected boolean isDisplayed(By locator) {
         try {
             return waitForVisible(locator).isDisplayed();
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    /** Checks if an element is visible right now without implicit or explicit waiting */
+    protected boolean isVisibleNow(By locator) {
+        try {
+            return withZeroImplicitWait(() -> driver.findElements(locator).stream()
+                    .anyMatch(WebElement::isDisplayed));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    protected <T> T withZeroImplicitWait(Supplier<T> action) {
+        Duration originalWait = driver.manage().timeouts().getImplicitWaitTimeout();
+        try {
+            driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+            return action.get();
+        } finally {
+            driver.manage().timeouts().implicitlyWait(originalWait);
         }
     }
 
